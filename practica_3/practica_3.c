@@ -245,8 +245,8 @@ void analisisMonDescendente() {
     printf("Analisis descendente:\n");
     printf("____________[N]__________[t(n)]___________[t(n)/n]__________"
            "____[t(n)/n^1.07]_________[t(n)/n^1.3]___\n");                             
-    for (n = 500;n <= 128000; n=n*2){
-        tiempo=medirTiempos(ord_monticulo, descendente, n);
+    for (n = 500; n <= 128000; n=n*2){
+        tiempo = medirTiempos(ord_monticulo, descendente, n);
         printf("\t%7d%4c%14.3f%4c%18.12f%4c%18.12f%4c%18.12f\n",
         n,'|', tiempo,'|', tiempo/n,'|', tiempo/pow(n, 1.07),'|',
          tiempo/pow(n, 1.3));
