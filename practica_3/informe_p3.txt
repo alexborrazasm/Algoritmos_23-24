@@ -1,0 +1,168 @@
+Práctica 3
+
+11/11/2023
+
+Grupo:
+
+    Alexandre Borrazás Mancebo  : alexandre.bmancebo@udc.es
+    Marco Gualillo Lago         : marco.gualillo@udc.es
+    Luis Mera Mujico            : l.mera1@udc.es
+
+Características de la máquina:
+
+    Modelo      : 82LM IdeaPad 5 14ALC05
+    Memoria     : 13812MiB
+    Procesador  : AMD Ryzen 5 5500U @ 2.100GHz 
+    Gráficos    : AMD ATI 04:00.0 Lucienne
+    Kernel      : 6.1.62-1-lts 
+    Tipo de SO  : Arch Linux x86_64 
+    Disco       : nvme gen3 500gb
+    Compilador  : gcc 13.2.1
+
+Introducción:
+
+    En está práctica vamos a estudiar la complejidad de la ordenación por monticulos, en nuestras pruebas utilizamos 
+    un montÍculo de mínimos.
+
+    Estudiaremos si es lineal la Creación de monticulos para un vector cualquiera, en primer lugar y luego la complejidad de 
+    ordenación de monticulos para 3 casos de entrada vectores.
+    
+Método: 
+
+    En primer lugar se demuestra empíricamente que crear un montículo se ejecuta en un tiempo lieneal, O(n), para un vector 
+    cualquiera, en este caso usamos un vector aleatoria, afianzando el resultado con un cota superior e inferior.
+
+    Luego para la ordenación por montículos se determinarán los tiempos de ejecución del algoritmo con 3 vectores de entrada 
+    diferentes, un vector ordenado de forma ascendente, uno ordenado descendente y otro con valores aleatorios. Estos vectores 
+    de entrada se ordenan en un montículo y luego se ordenan de menor a mayor con el algoritmo de ordenación por montículos.
+
+
+    En el caso que el tiempo de ejecución sea inferior a 500 se calculará una media de K (K = 1000) ejecuciones del algoritmo, 
+    en el caso del vector aleatorio, cada uno con vectores distintos. Esto se indicará en las tablas con el símbolo (*).
+
+    Todas las unidades de tiempo están medidas en microsegundos (µs).
+
+Tablas:
+
+    Creación de montículos:
+    ____________[N]__________[t(n)]___________[t(n)/n^0.8]__________[t(n)/n]______________[t(n)/n^1.2]___
+    (*)         500   |         7.838   |    0.054328692807   |    0.015676000000   |    0.004523152745
+    (*)        1000   |        15.304   |    0.060926321382   |    0.015304000000   |    0.003844190995
+    (*)        2000   |        30.481   |    0.069695576439   |    0.015240500000   |    0.003332676938
+    (*)        4000   |        60.680   |    0.079688853586   |    0.015170000000   |    0.002887843025
+    (*)        8000   |       120.701   |    0.091041389750   |    0.015087625000   |    0.002500361965
+    (*)       16000   |       240.131   |    0.104028477707   |    0.015008187500   |    0.002165231069
+              32000   |       517.000   |    0.128638379485   |    0.016156250000   |    0.002029133258
+              64000   |      1023.000   |    0.146194708788   |    0.015984375000   |    0.001747670940
+             128000   |      2044.000   |    0.167769463506   |    0.015968750000   |    0.001519948692
+    _____________________________________________________________________________________________________
+
+    (*)  Tiempo promedio en 1000 ejecuciones del algoritmo
+    <- Mediación anómala
+    
+    Cota subestimada = n^0.8
+    Cota ajustada = n
+    Cota sobrestimada = n^1.2
+
+    Observaciones:
+    El cociente entre nuestros tiempos y la cota subestimada es estrictamente creciente.
+    El cociente entre nuestros tiempos y la cota sobrestimada es estrictamente decreciente.
+    El cociente entre nuestros tiempos y la cota ajustada se sitúa próximo a un valor estable de 0.015.
+
+    Ordenación por monticulos
+
+    Ascendente:
+    ____________[N]__________[t(n)]___________[t(n)/n]______________[t(n)/n^1.07]_________[t(n)/n^1.3]___
+    (*)         500   |        23.144   |    0.046288000000   |    0.029959910800<- |    0.007174265010
+    (*)        1000   |        71.803   |    0.071803000000   |    0.044273370919<- |    0.009039462134
+    (*)        2000   |       176.780   |    0.088390000000   |    0.051919563693   |    0.009038453649
+    (*)        4000   |       386.800   |    0.096700000000   |    0.054110590668   |    0.008031718463
+               8000   |       807.000   |    0.100875000000   |    0.053773369244   |    0.006805445363
+              16000   |      1708.000   |    0.106750000000   |    0.054210009690   |    0.005849677033
+              32000   |      3589.000   |    0.112156250000   |    0.054257900091   |    0.004992044942
+              64000   |      7501.000   |    0.117203125000   |    0.054014031491   |    0.004237260839
+             128000   |     15798.000   |    0.123421875000   |    0.054186043582   |    0.003624341809
+    _____________________________________________________________________________________________________
+
+    (*)  Tiempo promedio en 1000 ejecuciones del algoritmo
+    <- Mediación anómala
+    
+    Cota subestimada = n
+    Cota ajustada = n^1.07
+    Cota sobrestimada = n^1.3
+
+    Observaciones:
+    El cociente entre nuestros tiempos y la cota subestimada es estrictamente creciente.
+    El cociente entre nuestros tiempos y la cota sobrestimada es estrictamente decreciente.
+    El cociente entre nuestros tiempos y la cota ajustada se sitúa próximo a un valor estable de 0.054.
+
+    Descendente:
+    ____________[N]__________[t(n)]___________[t(n)/n]______________[t(n)/n^1.07]_________[t(n)/n^1.3]___
+    (*)         500   |        26.823   |    0.053646000000   |    0.034722376745<- |    0.008314695401
+    (*)        1000   |        76.520   |    0.076520000000   |    0.047181849542<- |    0.009633297251
+    (*)        2000   |       188.361   |    0.094180500000   |    0.055320856074   |    0.009630570018
+    (*)        4000   |       402.624   |    0.100656000000   |    0.056324256611   |    0.008360296315
+               8000   |       841.000   |    0.105125000000   |    0.056038913920   |    0.007092167968
+              16000   |      1768.000   |    0.110500000000   |    0.056114342583   |    0.006055169201
+              32000   |      3688.000   |    0.115250000000   |    0.055754565488   |    0.005129746934
+              64000   |      7768.000   |    0.121375000000   |    0.055936674660   |    0.004388087215
+             128000   |     16106.000   |    0.125828125000   |    0.055242462206   |    0.003695002480
+    _____________________________________________________________________________________________________
+
+    (*)  Tiempo promedio en 1000 ejecuciones del algoritmo
+    <- Mediación anómala
+    
+    Cota subestimada = n
+    Cota ajustada = n^1.07
+    Cota sobrestimada = n^1.3
+
+    Observaciones:
+    El cociente entre nuestros tiempos y la cota subestimada es estrictamente creciente.
+    El cociente entre nuestros tiempos y la cota sobrestimada es estrictamente decreciente.
+    El cociente entre nuestros tiempos y la cota ajustada se sitúa próximo a un valor estable de 0.056.
+
+    Aleatorio:
+    ____________[N]__________[t(n)]___________[t(n)/n]______________[t(n)/n*logn]_________[t(n)/n^1.3]___
+    (*)         500   |        45.437   |    0.090874000000   |    0.014622643707   |    0.014084733807
+    (*)        1000   |       100.566   |    0.100566000000   |    0.014558419622   |    0.012660509296
+    (*)        2000   |       220.109   |    0.110054500000   |    0.014479135943   |    0.011253789988
+    (*)        4000   |       475.891   |    0.118972750000   |    0.014344349885   |    0.009881650804
+               8000   |      1026.000   |    0.128250000000   |    0.014270300580   |    0.008652276261
+              16000   |      2178.000   |    0.136125000000   |    0.014062000274   |    0.007459365678
+              32000   |      4689.000   |    0.146531250000   |    0.014125548230   |    0.006522067075
+              64000   |     10017.000   |    0.156515625000   |    0.014143014335   |    0.005658531106
+             128000   |     21329.000   |    0.166632812500   |    0.014169715246   |    0.004893251453
+    _____________________________________________________________________________________________________
+
+    (*)  Tiempo promedio en 1000 ejecuciones del algoritmo
+    <- Mediación anómala
+    
+    Cota subestimada = n
+    Cota ajustada = n*logn
+    Cota sobrestimada = n^1.3
+
+    Observaciones:
+    El cociente entre nuestros tiempos y la cota subestimada es estrictamente creciente.
+    El cociente entre nuestros tiempos y la cota sobrestimada es estrictamente decreciente.
+    El cociente entre nuestros tiempos y la cota ajustada se sitúa próximo a un valor estable de 0.014.
+
+Conclusión:
+
+    La creación de montículos, en el proceso de construcción de un montículo de mínimos, ha demostrado tener una complejidad 
+    lineal, lo que significa que su tiempo de ejecución es O(n). Así la complejidad teórica queda verificada empíricamente, 
+    lo que confirma que la construcción de montículos es un proceso eficiente.
+
+    En el caso del algoritmo de ordenación por montículos, nuestras pruebas han arrojado resultados interesantes en diferentes 
+    casos de entrada:
+    
+    Para vectores ordenados en orden ascendente o descendente, el algoritmo muestra un tiempo de ejecución que se ajusta a una 
+    complejidad teórica de O(n1.07), lo que indica un rendimiento mejor que O(nlog⁡n) en estos casos específicos.
+
+    Para vectores con elementos dispuestos aleatoriamente, el algoritmo muestra un tiempo de ejecución que se ajusta a la 
+    complejidad teórica de O(nlog⁡n), que es el resultado esperado para la ordenación por comparaciones en el peor de los casos.
+    
+    En resumen, el algoritmo de ordenación por montículos muestra un rendimiento muy bueno la variedad de casos de entrada.
+
+
+
+    

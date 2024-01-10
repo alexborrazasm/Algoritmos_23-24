@@ -1,0 +1,86 @@
+Práctica 1 (Nota 9.5)
+
+ 29/09/2023
+ 
+ Alexandre Borrazás Mancebo : alexandre.bmancebo@udc.es
+ Marco Gualillo Lago : marco.gualillo@udc.es
+ Luis Mera Mujico : l.mera1@udc.es
+ 
+ Características de la máquina:
+
+	Máquina     : Lenovo 20NR0013SP ThinkPad L390
+	Memoria     : 20NR0013SP ThinkPad L390
+	Procesador  : Intel i5-8265U (8) @ 3.900GHz 
+	Gráficos    : Intel UHD Graphics 620 
+	Kernel      : 5.15.0-84-generic 
+	Tipo de SO  : Ubuntu 20.04.3 LTS x86_64
+	Disco       : SSD
+	
+Introducción:
+
+	En esta práctia se evaluará empíricamente el rendimiento de dos algoritmos para encontrar la suma de la subsecuencia máxima, un problema clásico 
+	en la informática y la programación. Se refiere a encontrar la suma más grande posible dentro de una secuencia de números en función del tamaño 
+	del vector pasado como parámetro.
+ 
+	Todas las unidades de tiempo están medidas en microsegundos (µs).
+
+Método: 
+	
+	Se determinarán los tiempos de ejecución de los algoritmos con una serie de vectores de valores aleatorios, cuyo tamaño seguirá una progresión geométrica
+	 de razón 2 que parte de 500 elementos. Se usarán 2 cotas (subestimada y sobreestimada) para afianzar los resultados de la cota ajustada.
+
+        K = 1000 <- En caso de que el tiempo de ejecución sea inferior a 500  se calculará 
+        una media de K ejecuciones del algoritmo (con vectores distintos).
+        
+Tablas:
+
+Algoritmo SumaSubMax 1: 
+          n                t(n)            t(n)/n^1.8         t(n)/n^2.0          t(n)/n^2.2
+(*)	     500	         274.38300	     0.003803743230	    0.001097532000      0.000316681863
+	    1000            1089.00000	     0.004335387087	    0.001089000000      0.000273544432
+	    2000            4208.00000	     0.004810849146	    0.001052000000      0.000230043380
+	    4000           17495.00000	     0.005743887992	    0.001093437500      0.000208152660
+	    8000           70983.00000	     0.006692561545	    0.001109109375      0.000183804601
+	   16000          274696.00000	     0.007437660775	    0.001073031250      0.000154806208
+	   32000         1097364.00000       0.008532587444	    0.001071644531      0.000134592468
+	   
+	   Cota subestimada  = t(n)/n^1.8 y tiendo a infinito
+	   Cota ajustada     = t(n)/n^2.0 y tiende a una constante ≈ 0.0010
+	   Cota sobrestimada = t(n)/n^2.2 y tiende a cero 
+	   
+Algoritmo SumaSubMax 2: 
+          n                t(n)            t(n)/n^1.8             t(n)/n^2.0          t(n)/n^2.2
+(*)	     500              1.33200        0.009232689311         0.002664000000      0.000768670510
+(*)	    1000              1.93100        0.007687449463 <-	    0.001931000000      0.000485045270 <-
+(*)	    2000              5.93100        0.013561381315	        0.002965500000      0.000648473046
+(*)	    4000             13.01200        0.017088189895	        0.003253000000      0.000619258626
+(*)	    8000             22.77300        0.017177037214	        0.002846625000      0.000471750383
+(*)	   16000             40.07800        0.017362411890	        0.002504875000      0.000361378293
+(*)	   32000             73.59700        0.018312183395	        0.002299906250      0.000288855165
+(*)	   64000            144.31900	     0.020624314934	        0.002254984375      0.000246551439
+(*)   128000            275.24900        0.022592160989	        0.002150382813      0.000204679236
+      256000            509.00000        0.023995279338         0.001988281250	    0.000164751669
+ 
+         Cota subestimada  = t(n)/n^0.8 y tiendo a infinito
+         Cota ajustada     = t(n)/n y tiende a una constante ≈ 0.022
+         Cota sobrestimada = t(n)/n^1.2 y tiende a cero   
+         
+(*)  Tiempo promedio en 1000 ejecuciones del algoritmo
+(<-) Medición anomala  
+
+Conclusión:
+
+Según los resultados empiricos la complejidad del algoritmo SumaSubMax1 es cuadrática, es decir, su tiempo de ejecución crece en función del cuadrado del 
+tamaño de la entrada (t(n) = O(n²)). Por otro lado, el algoritmo SumaSubMax2 muestra una complejidad lineal, donde su tiempo de ejecución crece en función 
+del tamaño de la entrada de manera proporcional (t(n) = O(n)).
+
+Estos resultados se respaldan mediante el análisis de las cotas subestimadas, ajustadas y sobrestimadas. En el caso de SumaSubMax1, las cotas muestran que el 
+tiempo de ejecución se comporta de manera cuadrática (n^2.0 tiende a una constante ≈ 0.0010), mientras que en el caso de SumaSubMax2, las cotas indican un 
+crecimiento lineal (n tiende a una constante ≈ 0.022).
+
+Es importante destacar que se detectaron mediciones anómalas en el algoritmo SumaSubMax2 para algunos tamaños de entrada. Estas mediciones atípicas pueden 
+deberse a diversos factores, como la carga de trabajo del sistema en el momento de la ejecución. En futuros análisis, se podría considerar investigar y 
+abordar estas anomalías para obtener resultados más precisos.
+
+Como consulsión final el algoritmo SumaSubMax2, a pesar de tener alguna medición anómala es mucho más rápido y eficiente a la hora de resolver la subsecuencia 
+máxima que el algoritmo SumaSubMax1, sobre todo cuando el tamaño de la entrada es un vecto muy grande.

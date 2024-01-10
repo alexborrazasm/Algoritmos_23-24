@@ -1,0 +1,192 @@
+Práctica 2
+
+18/10/2023
+
+Grupo:
+
+    Alexandre Borrazás Mancebo  : alexandre.bmancebo@udc.es
+    Marco Gualillo Lago         : marco.gualillo@udc.es
+    Luis Mera Mujico            : l.mera1@udc.es
+
+Características de la máquina:
+
+    Modelo      : 82LM IdeaPad 5 14ALC05
+    Memoria     : 13807MiB
+    Procesador  : AMD Ryzen 5 5500U @ 2.100GHz 
+    Gráficos    : AMD ATI 04:00.0 Lucienne
+    Kernel      : 6.4.0-0.deb12.2-amd64 
+    Tipo de SO  : Debian GNU/Linux 12 (bookworm) x86_64 
+    Disco       : nvme gen3 500gb
+
+Introducción:
+
+    En está práctica dentro del contexto de la ordenación de un vector de números enteros vamos a analizar el comportamiento de dos algoritmos, la ordenación
+    por inserción y la ordenación shell.
+
+Método: 
+    
+    Se determinarán los tiempos de ejecución de los dos algoritmos con 3 vectores de entrada diferecntes, un vector de valores aleatorios, uno ordenado de 
+    forma ascendente y otro de forma descendente.
+    
+    Para el cáculo empirico de la complejidad se usarán 2 cotas (subestimada y sobreestimada) para afianzar los resultados de la cota ajustada.
+
+    En el caso que el tiempo de ejecución sea inferior a 500 se calculará una media de K (K = 1000) ejecuciones del algoritmo, en el caso del vector aleatorio,
+    cada uno con vectores distintos. Esto se indicará en las tablas con el símbolo (*).
+
+    Todas las unidades de tiempo están medidas en microsegundos (µs).
+
+Tablas:
+
+    Ordenación inserción:
+    
+    Ordenación por inserción con inicialización aleatoria:
+              n                  t(n)               t(n)/n^1.8              t(n)/n^2.0              t(n)/n^2.2
+    (*)     500             122.29800           0.001695404561          0.000489192000 <-       0.000141151450
+    (*)    1000             476.33700           0.001896331753          0.000476337000          0.000119650445
+           2000            1911.00000           0.002184774886          0.000477750000          0.000104470746
+           4000            7527.00000           0.002471234348          0.000470437500          0.000089555020
+           8000           30157.00000           0.002843322747          0.000471203125          0.000078089055
+          16000          119216.00000           0.003227888891          0.000465687500 <-       0.000067184731
+          32000          481795.00000           0.003746211802          0.000470502930          0.000059092496
+          
+    (*)  Tiempo promedio en 1000 ejecuciones del algoritmo
+    <- Mediación anómala
+    
+    Cota subestimada = n^1.8
+    Cota ajustada = n^2.0
+    Cota sobrestimada = n^2.2
+
+    Observaciones:
+    El cociente entre nuestros tiempos y la cota subestimada es estrictamente creciente.
+    El cociente entre nuestros tiempos y la cota sobrestimada es estrictamente decreciente.
+    El cociente entre nuestros tiempos y la cota ajustada se sitúa próximo a un valor estable de 0.00047.
+    
+    Ordenación por inserción con inicialización ascendente: 
+              n                  t(n)               t(n)/n^1.8                  t(n)/n              t(n)/n^2.2
+    (*)     500               1.43200           0.009925834154          0.002864000000          0.000826378506
+    (*)    1000               2.84200           0.011314205787          0.002842000000          0.000713878124
+    (*)    2000               5.70400           0.013042340081          0.002852000000          0.000623653727
+    (*)    4000              11.27400           0.014805737233          0.002818500000          0.000536544863
+    (*)    8000              22.82500           0.017216259360          0.002853125000          0.000472827581
+    (*)   16000              45.18500           0.019574843586          0.002824062500          0.000407427470
+    (*)   32000              90.11400           0.022421893480          0.002816062500          0.000353681459
+    
+    (*)  Tiempo promedio en 1000 ejecuciones del algoritmo
+    
+    Cota subestimada = n^0.8
+    Cota ajustada = n
+    Cota sobrestimada = n^1.2
+
+    Observaciones:
+    El cociente entre nuestros tiempos y la cota subestimada es estrictamente creciente.
+    El cociente entre nuestros tiempos y la cota sobrestimada es estrictamente decreciente.
+    El cociente entre nuestros tiempos y la cota ajustada se sitúa próximo a un valor estable de 0.0028.
+
+    Ordenación por inserción con inicialización descendente: 
+              n                  t(n)               t(n)/n^1.8              t(n)/n^2.0              t(n)/n^2.2
+    (*)     500             235.94100           0.003270825749          0.000943764000 <-       0.000272313647
+           1000             939.00000           0.003738226331          0.000939000000          0.000235866136
+           2000            3746.00000           0.004282661811          0.000936500000          0.000204786716
+           4000           14959.00000           0.004911278678          0.000934937500          0.000177979745
+           8000           59771.00000           0.005635449278          0.000933921875          0.000154772056
+          16000          239274.00000           0.006478575750          0.000934664062          0.000134843976
+          32000          957672.00000           0.007446408012          0.000935226562          0.000117459146
+          
+    (*)  Tiempo promedio en 1000 ejecuciones del algoritmo
+    <- Mediación anómala
+
+    Cota subestimada = n^1.8
+    Cota ajustada = n^2.0
+    Cota sobrestimada = n^2.2
+
+    Observaciones:
+    El cociente entre nuestros tiempos y la cota subestimada es estrictamente creciente.
+    El cociente entre nuestros tiempos y la cota sobrestimada es estrictamente decreciente.
+    El cociente entre nuestros tiempos y la cota ajustada se sitúa próximo a un valor estable de 0.00093.
+    ----------------------------------------------------------------------------------------------------------
+    Ordenación shell:
+
+    Ordenación por shell con inicialización aleatoria: 
+              n                  t(n)               t(n)/n^1.1             t(n)/n^1.19              t(n)/n^1.3
+    (*)     500              43.34500           0.046566329034          0.026617343063 <-       0.013436247703
+    (*)    1000             100.98000           0.050609886852          0.027179118450          0.012712628808
+    (*)    2000             232.73600           0.054416495688          0.027456038241          0.011899386516
+           4000             531.00000           0.057919996990          0.027456370801          0.011025963040
+           8000            1200.00000           0.061063579731          0.027195945459          0.010119621358
+          16000            2778.00000           0.065947792149          0.027594940504          0.009514287353
+          32000            6388.00000           0.070745680974          0.027812269771          0.008885255806
+
+    (*)  Tiempo promedio en 1000 ejecuciones del algoritmo
+    <- Mediación anómala
+    
+    Cota subestimada = n^1.1
+    Cota ajustada = n^1.19
+    Cota sobrestimada = n^1.3
+
+    Observaciones:
+    El cociente entre nuestros tiempos y la cota subestimada es estrictamente creciente.
+    El cociente entre nuestros tiempos y la cota sobrestimada es estrictamente decreciente.
+    El cociente entre nuestros tiempos y la cota ajustada se sitúa próximo a un valor estable de 0.027.
+    
+    Ordenación por shell con inicialización ascendente:
+              n                  t(n)                   t(n)/n             t(n)/n^1.14              t(n)/n^1.3
+    (*)     500              11.45400           0.022908000000          0.009596908936 <-       0.003550554417
+    (*)    1000              25.98000           0.025980000000          0.009877320516 <-       0.003270688220
+    (*)    2000              58.24600           0.029123000000          0.010048284221          0.002978016581
+    (*)    4000             129.28700           0.032321750000          0.010120604837          0.002684583208
+    (*)    8000             301.44400           0.037680500000          0.010707400783          0.002542082617
+          16000             673.00000           0.042062500000          0.010847215892          0.002304937145
+          32000            1464.00000           0.045750000000          0.010707056673          0.002036320366
+          
+    (*)  Tiempo promedio en 1000 ejecuciones del algoritmo
+    <- Mediación anómala
+    
+    Cota subestimada = n
+    Cota ajustada = n^1.14
+    Cota sobrestimada = n^1.3
+
+    Observaciones:
+    El cociente entre nuestros tiempos y la cota subestimada es estrictamente creciente.
+    El cociente entre nuestros tiempos y la cota sobrestimada es estrictamente decreciente.
+    El cociente entre nuestros tiempos y la cota ajustada se sitúa próximo a un valor estable de 0.010.
+    
+    Ordenación por shell con inicialización descendente: 
+             n                   t(n)                   t(n)/n             t(n)/n^1.14              t(n)/n^1.3
+    (*)     500              17.95300           0.035906000000          0.015042195401          0.005565139117
+    (*)    1000              40.54400           0.040544000000          0.015414398884          0.005104187190
+    (*)    2000              89.12700           0.044563500000          0.015375706963          0.004556908351
+    (*)    4000             195.82800           0.048957000000          0.015329443827          0.004066275499
+    (*)    8000             434.51800           0.054314750000          0.015434237781          0.003664298028
+          16000             968.00000           0.060500000000          0.015601939054          0.003315273635
+          32000            2052.00000           0.064125000000          0.015007431895          0.002854186743
+
+    (*)  Tiempo promedio en 1000 ejecuciones del algoritmo
+    
+    Cota subestimada = n
+    Cota ajustada = n^1.14
+    Cota sobrestimada = n^1.3
+
+    Observaciones:
+    El cociente entre nuestros tiempos y la cota subestimada es estrictamente creciente.
+    El cociente entre nuestros tiempos y la cota sobrestimada es estrictamente decreciente.
+    El cociente entre nuestros tiempos y la cota ajustada se sitúa próximo a un valor estable de 0.015.
+    
+    En resumen:
+    El algoritmo de ordenación por inserición tiene una complejidad cuadrática (t(n) = O(n^2)) en el caso de vectores aleatorios y descendentes. En el caso de un vector
+    ya ordenado (manera ascendente) su complejidad es lineal (t(n) = O(n)). Lo cual lo hace un algoritmo muy bueno para comprobar si algo está ordenador, pero no para
+    ordenarlo.
+    
+    El algoritmo de ordenación shell, muestra una complejidad t(n) = O(n^1.14) en el caso de vectores ascendentes y descendentes. En el caso de vectores aleatorios muestra
+    una complejidad de t(n) = O(n^1.19), lo cual diverge de la estimación de t(n) = O(n log n).
+        
+Conclusión:
+   
+   El algoritmo de ordenación Shell, según nuetros resultados empíricos superar al algoritmo de Inserción en todos los casos menos si el vector ya está ordenado.
+   El algoritmo de Inserción tiene rendimiento limitado, especialmente cuando se trata de conjuntos de datos grandes. Debido a su complejidad cuadrática (t(n) = O(n^2)) en 
+   el peor de los casos.
+   Por otro lado, el algoritmo de ordenación shell es una extensión más sofisticada del algoritmo de Inserción. Aunque todavía es un algoritmo de ordenación de comparación, 
+   su estrategia de dividir el conjunto de datos en segmentos más pequeños y aplicar el ordenamiento de Inserción en cada uno de ellos resulta en un mejor rendimiento. La 
+   complejidad de shell es en el mejor de los casos debería ser t(n) = O(n log n), en nuestras pruebas se acerca, lo que demuestra que es más eficiente para conjuntos de 
+   datos más grandes.
+
+   En conclusión, el algoritmo de Shell es preferible al de Inserción, excepto cuando ya tenemos el vector ya ordenado.

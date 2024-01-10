@@ -1,0 +1,81 @@
+Práctica 4
+
+22/11/2023
+
+Grupo:
+
+    Alexandre Borrazás Mancebo  : alexandre.bmancebo@udc.es
+    Marco Gualillo Lago         : marco.gualillo@udc.es
+    Luis Mera Mujico            : l.mera1@udc.es
+
+Características de la máquina:
+
+    Modelo      : 82LM IdeaPad 5 14ALC05
+    Memoria     : 13812MiB
+    Procesador  : AMD Ryzen 5 5500U @ 2.100GHz 
+    Gráficos    : AMD ATI 04:00.0 Lucienne
+    Kernel      : 6.1.62-1-lts 
+    Tipo de SO  : Arch Linux x86_64 
+    Disco       : nvme gen3 500gb
+    Compilador  : gcc 13.2.1
+
+Introducción:
+
+    En está práctica se presenta un algoritmo para calcular los caminos mínimos de cada vértice a los restantes en grafos 
+    ponderados siguiendo el algoritmo de Dijkstra. Este algoritmo recibe como argumento la matriz de adyacencia del grafo
+    y nos devuelve las distancias mínimas.
+
+    Estudiaremos la complejidad del algoritmo para el caso de grafos completos no dirigidos aleatorios.
+    
+Método: 
+
+    Primero vamos a comprobar el correcto funcionamiento de la implementación del algoritmo Dijkstra con dos casos de prueba 
+    en los que sabemos el resultado que nos debería devolver. 
+
+    Después se determinarán los tiempos de ejecución del algoritmo Dijkstra con un grafo completo no dirigidos que ha sido 
+    generado aleatoriamente. Este grafo lo obtendremos a partir de su matriz grafo, su matriz distancias y su tamaño para 
+    luego obtener el camino mínimo de cada vértice a los restantes utilizando el algoritmo.
+
+    En el caso que el tiempo de ejecución sea inferior a 500 se calculará una media de K (K = 1000) ejecuciones del algoritmo, 
+    en el caso del vector aleatorio, cada uno con vectores distintos. Esto se indicará en las tablas con el símbolo (*).
+
+    Todas las unidades de tiempo están medidas en microsegundos (µs).
+
+Tablas:
+
+    Analisis cálculo de las distancias mínimas:
+    ________[N]__________[t(n)]___________[t(n)/n^2.6]__________[t(n)/n^2.84]_________[t(n)/n^3]________
+    (*)       5   |         0.697<- |    0.010614774362   |    0.007213698151   |    0.005576000000
+    (*)      10   |        10.339   |    0.025970393815   |    0.014944401790   |    0.010339000000
+    (*)      20   |        74.300   |    0.030782991686   |    0.014999045621   |    0.009287500000
+             40   |       531.000   |    0.036285953829   |    0.014970770258   |    0.008296875000
+             80   |      3732.000   |    0.042063719132   |    0.014694880950   |    0.007289062500
+            160   |     27118.000   |    0.050413366709   |    0.014912721442   |    0.006620605469
+            320   |    194998.000   |    0.059791605270   |    0.014976289223   |    0.005950866699
+            640   |   1732089.000<- |    0.087599629890   |    0.018578860658   |    0.006607395172
+    _____________________________________________________________________________________________________
+
+    (*)  Tiempo promedio en 1000 ejecuciones del algoritmo
+    <- Mediación anómala
+
+    Cota subestimada = n^2.6
+    Cota ajustada = n^2.84
+    Cota sobrestimada = n^3
+
+    Observaciones:
+    El cociente entre nuestros tiempos y la cota subestimada es estrictamente creciente.
+    El cociente entre nuestros tiempos y la cota sobrestimada es estrictamente decreciente.
+    El cociente entre nuestros tiempos y la cota ajustada se sitúa próximo a un valor estable de 0.014.
+    
+    Tenemos la hipopótesis de que la medida anómala de n = 640 se debe a que el sistema operativo de nuetra máquina de pruebas
+    hace una paginación de memoria, entonces los tiempos de ejecución aumenta ligeramente.
+
+Conclusión:
+
+    El la implementación del algoritmo estudiado anteriormente muestra una complejidad O(n)=n^2.8.
+
+    Lo cual muestra una complejidad mejor a la teórica de nuestra implementación, O(n)=n^3, que como demostramos empíricamente 
+    en las tablas es una cota sobrestimada de nuestra implementación.
+
+    Esta mejoria en la complejidad se puede deber a que establecemos el peso máximo de los vertices en 1000, lo cual hace al 
+    algoritmo más sencillo calcular las distancias mínimas.
