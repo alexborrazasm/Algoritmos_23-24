@@ -3,11 +3,12 @@
     Marco Gualillo Lago : marco.gualillo@udc.es
     Luis Mera Mujico : l.mera1@udc.es
 */
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <sys/time.h>
-#include <math.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+#include<sys/time.h>
+#include<math.h>
+#include<stdbool.h>
 
 #define TAM 256000 
 // Define el tamaño máximo del vector en el montículo
@@ -19,13 +20,16 @@ struct monticulo {
 
 typedef struct monticulo *pmonticulo;
 
-void listar_vector(int v[], int n) {
-    int i = 0;
-
-    for (i = 0; i < n; i++)
-        printf("%3d", v[i]);
-
-    printf("\n");
+void printV(int array[], int n) {  
+    for (int i = 0; i < n; i++) {
+        if (i == 0) {
+            printf("[%d, ", array[i]);
+        } else if (i < n-1) {
+            printf("%d, ", array[i]);
+        } else {
+            printf("%d]\n", array[i]);
+        }
+    }
 }   // Imprime un vector
 
 void hundir(pmonticulo m, int i) {
@@ -76,26 +80,28 @@ int quitarMenor(pmonticulo m) {
     }
     return x;
 }
-
-void ord_monticulo(int v[], int n, pmonticulo m) {
+void ordenarPorMonticulos(int v [], int n) {
     int i;
+    pmonticulo m = (pmonticulo)malloc(sizeof(struct monticulo));
 
     crearMonticulo(v, n, m);
 
     for (i = 0; i < n; i++) {
         v[i] = quitarMenor(m);
     }
+
+    free(m);
 }   // Algoritmo de ordenación por montículos
 
-int ordenado(int v[], int n) {
+bool ordenado(int v[], int n) {
     int i;
 
     for (i = 0; i < n - 1; i++) {
         if (v[i] > v[i + 1])
-            return 0;
+            return false;
     }
-    return 1;    
-}   // Comprueba si un vector está ordenado
+    return true;    
+}   // Comprueba si un vector está ordenado ascendentemente
 
 void aleatorio(int v[], int n) {
     int i, m = 2 * n + 1;
@@ -137,45 +143,43 @@ void testCrearMonticulo() {
     printf("Test crear monticulo:\n");
     printf("Inicializacion aleatoria:\n");
     aleatorio(v, n);
-    listar_vector(v, n);
+    printV(v, n);
     crearMonticulo(v, n, m);
     printf("Vector del monticulo:\n");
-    listar_vector(m->vector, 10);
-    printf("_____________________________________________________\n");
+    printV(m->vector, 10);
+    printf("______________________________________________________________\n");
     free(m);
     // Test del funcionamiento de crearMonticulo
 }
 
-void testAux(int v[],int n, void (*gen)(int v[], int n), 
-             void (*alg)(int v[], int n, pmonticulo m)) {
-    pmonticulo m = (pmonticulo)malloc(sizeof(struct monticulo));
+void testAux(int v[],int n, void gen(int v[], int n), 
+             void alg(int v[], int n)) {
     gen(v, n);
-    listar_vector(v, n);
-    printf("Esta ordenado? %d\n", ordenado(v, n));
-    alg(v, n, m);
+    printV(v, n);
+    printf("Esta ordenado? %s\n", ordenado(v, n)? "Si":"No");
+    alg(v, n);
     printf("Vector ordenado:\n");
-    listar_vector(v, n);
-    printf("Esta ordenado? %d\n", ordenado(v, n));
-    printf("_____________________________________________________\n");
-    free(m);
+    printV(v, n);
+    printf("Esta ordenado? %s\n", ordenado(v, n)? "Si":"No");
+    printf("______________________________________________________________\n");
 }
 
 void testOrdMonticulo() {
     int v[17], n = 17;
-    printf("Test ordenacion por montoculos:\n");
+    printf("Test ordenacion por monticulos:\n");
     printf("Inicializacion aleatoria:\n");
-    testAux(v, n, aleatorio, ord_monticulo);
+    testAux(v, n, aleatorio, ordenarPorMonticulos);
     printf("Inicializacion ascendente:\n");
-    testAux(v, n, ascendente, ord_monticulo);
+    testAux(v, n, ascendente, ordenarPorMonticulos);
     printf("Inicializacion descendente:\n");
-    testAux(v, n, descendente, ord_monticulo);
+    testAux(v, n, descendente, ordenarPorMonticulos);
 }   // Test del funcionamiento de ord_monticulo
 
-double medirTiempos(void (*alg)(int v[], int n, pmonticulo m), 
-                    void (*gen)(int v[], int n), int n) {
+double medirTiemposCrear(void (*alg)(int v[], int n, pmonticulo m),
+                         void (*gen)(int v[], int n), int n) {
     double inicio = 0.0, fin = 0.0, t = 0.0, t1 = 0.0, t2 = 0.0;
-    int k = 1000, i; 
-    int *v;
+    int k = 1000, i, *v;
+
     v = malloc(n * sizeof(int));
     pmonticulo m = (pmonticulo)malloc(sizeof(struct monticulo));
     gen(v, n);
@@ -205,6 +209,38 @@ double medirTiempos(void (*alg)(int v[], int n, pmonticulo m),
     return t;
 }
 
+double medirTiempos(void (*alg)(int v[], int n), 
+                    void (*gen)(int v[], int n), int n) {
+    double inicio = 0.0, fin = 0.0, t = 0.0, t1 = 0.0, t2 = 0.0;
+    int k = 1000, i, *v;
+
+    v = malloc(n * sizeof(int));
+    gen(v, n);
+    inicio = microsegundos();
+    alg(v, n);
+    fin = microsegundos();
+    t = fin - inicio;
+    if (t < 500) {
+        printf("(*)");
+        inicio = microsegundos();
+        for (i = 0; i < k; i++) {
+            gen(v, n);
+            alg(v, n);
+        }
+        fin = microsegundos();
+        t1 = fin - inicio;
+        inicio = microsegundos();
+        for (i = 0; i < k; i++) {
+            gen(v, n);
+        }
+        fin = microsegundos();
+        t2 = fin - inicio;
+        t = (t1 - t2) / k;
+    }
+    free(v);
+    return t;
+}
+
 void analisisCrear(){
     int n;
     double tiempo;
@@ -212,7 +248,7 @@ void analisisCrear(){
     printf("____________[N]__________[t(n)]___________[t(n)/n^0.8]______"
            "____[t(n)/n]______________[t(n)/n^1.2]___\n");
     for (n = 500; n <= 128000; n = n * 2) {
-        tiempo = medirTiempos(crearMonticulo, aleatorio, n);
+        tiempo = medirTiemposCrear(crearMonticulo, aleatorio, n);
         printf("\t%7d%4c%14.3f%4c%18.12f%4c%18.12f%4c%18.12f\n",
         n,'|', tiempo,'|', tiempo/pow(n,0.8),'|', tiempo/n,'|',
          tiempo/pow(n, 1.2));
@@ -229,7 +265,7 @@ void analisisMonAscendente() {
     printf("____________[N]__________[t(n)]___________[t(n)/n]__________"
            "____[t(n)/n^1.07]_________[t(n)/n^1.3]___\n");                             
     for (n = 500;n <= 128000; n=n*2){
-        tiempo=medirTiempos(ord_monticulo, ascendente, n);
+        tiempo=medirTiempos(ordenarPorMonticulos, ascendente, n);
         printf("\t%7d%4c%14.3f%4c%18.12f%4c%18.12f%4c%18.12f\n",
         n,'|', tiempo,'|', tiempo/n,'|', tiempo/pow(n, 1.07),'|',
          tiempo/pow(n, 1.3));
@@ -246,7 +282,7 @@ void analisisMonDescendente() {
     printf("____________[N]__________[t(n)]___________[t(n)/n]__________"
            "____[t(n)/n^1.07]_________[t(n)/n^1.3]___\n");                             
     for (n = 500; n <= 128000; n=n*2){
-        tiempo = medirTiempos(ord_monticulo, descendente, n);
+        tiempo = medirTiempos(ordenarPorMonticulos, descendente, n);
         printf("\t%7d%4c%14.3f%4c%18.12f%4c%18.12f%4c%18.12f\n",
         n,'|', tiempo,'|', tiempo/n,'|', tiempo/pow(n, 1.07),'|',
          tiempo/pow(n, 1.3));
@@ -263,7 +299,7 @@ void analisisMonAleatorio() {
     printf("____________[N]__________[t(n)]___________[t(n)/n]__________"
            "____[t(n)/n*logn]_________[t(n)/n^1.3]___\n");                          
     for (n = 500;n <= 128000; n=n*2){
-        tiempo=medirTiempos(ord_monticulo, aleatorio, n);
+        tiempo=medirTiempos(ordenarPorMonticulos, aleatorio, n);
         printf("\t%7d%4c%14.3f%4c%18.12f%4c%18.12f%4c%18.12f\n",
         n,'|', tiempo,'|', tiempo/n,'|', tiempo/(n*log(n)),'|',
          tiempo/pow(n, 1.3));
@@ -277,7 +313,7 @@ void analisisOrdMonticulos() {
     analisisMonAscendente();
     analisisMonDescendente();
     analisisMonAleatorio();
-    printf("\n");
+    printf("\n\n");
 }
 
 int main() {

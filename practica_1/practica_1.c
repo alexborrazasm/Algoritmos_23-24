@@ -83,10 +83,16 @@ double medirTiempos(int  suma (int v[], int n), int n) {
     return t;
 }
 
-void listar_vector (int v[], int n) {
-    int i = 0;
-    for(i = 0; i < n; i++)
-        printf("%3d", v[i]);
+void printV(int array[], int n) {  // Imprime un vector
+    for (int i = 0; i < n; i++) {
+        if (i == 0) {
+            printf("[%2d,", array[i]);
+        } else if (i < n-1) {
+            printf("%2d, ", array[i]);
+        } else {
+            printf("%2d]", array[i]);
+        }
+    }
 }
 
 void inicializar_semilla() {
@@ -99,29 +105,24 @@ void test1(){
                     {9,-2,1,-7,-8},{15,-2,-5,-4,16},{7,-5,6,7,-7}};
                      
     int i;
-    printf("test 1:\n");
-    printf("%16s%15s%15s\n", "", "sumaSubMax1", "sumaSubMax2");
+    printf("Test 1:\n");
+    printf("%14s%20s%15s\n", "Vectores", "sumaSubMax1", "sumaSubMax2");
     for (i= 0;i < 6; i++){
-        listar_vector(v[i],5);
-        printf("\t\t");
-        printf("%2d\t\t", sumaSubMax1(v[i],5));
-        printf("%2d\n", sumaSubMax2(v[i],5));
+        printV(v[i],5);
+        printf("%10d%15d\n", sumaSubMax1(v[i],5), sumaSubMax2(v[i],5));
     }
     printf("\n");
 }
 
 void test2() {
-    int i, a, b;
-    int v[9];
+    int i, v[9];
 
-    printf("test 2:\n");
-    printf("%33s%15s%15s\n", "", "sumaSubMax1", "sumaSubMax2");
+    printf("Test 2:\n");
+    printf("%20s%30s%15s\n", "Vectores", "sumaSubMax1", "sumaSubMax2");
     for (i = 0; i<10; i++) {
         aleatorio(v, 9);
-        listar_vector(v, 9);
-        a = sumaSubMax1(v, 9);
-        b = sumaSubMax2(v, 9);
-        printf("%15d%15d\n", a, b);
+        printV(v, 9);
+        printf("%10d%15d\n", sumaSubMax1(v, 9), sumaSubMax2(v, 9));
     }
 }
 
@@ -136,7 +137,7 @@ void analisisSuma1() {
         tiempo=medirTiempos(sumaSubMax1, n);
         printf("\t%7d%4c%14.3f%4c%18.12f%4c%18.12f%4c%18.12f\n",
         n,'|', tiempo,'|', tiempo/(pow(n,1.8)),'|', tiempo/(pow(n,2)),'|',
-         tiempo/(pow(n,2.2)));
+        tiempo/(pow(n,2.2)));
     }
 }
 
