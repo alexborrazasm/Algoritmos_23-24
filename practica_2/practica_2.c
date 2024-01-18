@@ -11,7 +11,8 @@
 #include<math.h>
 
 void printV(int array[], int n) {  // Imprime un vector
-    for (int i = 0; i < n; i++) {
+    int i;
+    for (i = 0; i < n; i++) {
         if (i == 0) {
             printf("[%d, ", array[i]);
         } else if (i < n-1) {
