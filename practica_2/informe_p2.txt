@@ -25,7 +25,7 @@ Introducción:
 
 Método: 
     
-    Se determinarán los tiempos de ejecución de los dos algoritmos con 3 vectores de entrada diferecntes, un vector de valores aleatorios, uno ordenado de 
+    Se determinarán los tiempos de ejecución de los dos algoritmos con 3 vectores de entrada diferentes, un vector de valores aleatorios, uno ordenado de 
     forma ascendente y otro de forma descendente.
     
     Para el cáculo empirico de la complejidad se usarán 2 cotas (subestimada y sobreestimada) para afianzar los resultados de la cota ajustada.
