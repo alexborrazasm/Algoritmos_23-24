@@ -32,6 +32,6 @@ Grafos, el problema del camino mínimo:
 ## Examen final prácticas
 
 Implementación y análisis del algoritmo de ordenación:
-- Quicksort
+- Quicksort.
 
 ### Cualificación: 9
