@@ -27,11 +27,11 @@ Se implementa un montículos de mínimo. Se estudian las complejidades de:
 Grafos, el problema del camino mínimo:
 -  El algoritmo de Dijkstra.
 
-### Calificación: 9,4
+### Cualificación: 9,4
 
 ## Examen final prácticas
 
 Implementación y análisis del algoritmo de ordenación:
 - Quicksort
 
-### Calificación: 9
+### Cualificación: 9
